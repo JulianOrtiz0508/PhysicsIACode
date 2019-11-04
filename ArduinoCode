@@ -1,0 +1,32 @@
+const float REFERENCEVOLTS = 5.0;
+const int VOLTAGEPIN = A0;
+float oldVoltage = 0.0;
+float newVoltage = 0.0;
+long startTime;
+long endTime;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int rawPinData = analogRead(VOLTAGEPIN);
+  newVoltage = (rawPinData / 1023.0) * REFERENCEVOLTS;
+
+  bool isChanging = (oldVoltage - newVoltage) > 0.02;
+
+  if(isChanging){
+    startTime = micros();
+    timer();
+  }
+
+  oldVoltage = newVoltage;
+}
+
+void timer(){
+  Serial.println(newVoltage);
+  if(newVoltage <= 0.03){
+    endTime = micros();
+    Serial.println(endTime - startTime);
+  }
+}
