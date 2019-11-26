@@ -25,7 +25,7 @@ void loop() {
 
 void timer(){
   Serial.println(newVoltage);
-  if(newVoltage <= 0.03){
+  if(newVoltage <= 0.01){
     endTime = micros();
     Serial.println(endTime - startTime);
   }
